@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+  <meta charset="UTF-8">
+  <title>Refleks test</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: Arial, sans-serif;
+      background: url('/static/ozadje.jpg') no-repeat center center fixed;
+      transition: ozadje-position 0.05s linear;
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+    }
+    #game-area {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+    #click-btn {
+      background-color: rgb(91, 91, 215);
+      position: absolute;
+      padding: 20px 40px;
+      font-size: 20px;
+      cursor: pointer;
+      transform: translate(-50%, -50%);
+      left: 50%;
+      top: 50%;
+    }
+    #message {
+      font-size: 40px;
+      margin-top: 20px;
+      color: #333;
+    }
+    #scoreboard {
+      margin-top: 20px;
+      font-size: 20px;
+    }
+    #scores {
+    list-style-type: none; /* odstrani pikice */
+    padding-left: 0;       /* odstrani zamik na levi */
+    }
+    .score-header, #scores > div {
+      display: flex;
+      justify-content: center; /* poravna vse na sredino */
+      gap: 40px;               /* razmik med stolpci */
+      font-family: monospace;  /* da se lepo poravna | */
+    }
+
+    .score-header {
+      font-weight: bold;
+      margin-bottom: 5px;
+      margin-right: 25px;
+    }
+    /*"pok" gumba*/
+    #click-btn.pop {
+      animation: pop 0.2s ease;
+    }
+
+    @keyframes pop {
+      0%   { transform: translate(-50%, -50%) scale(1); }
+      50%  { transform: translate(-50%, -50%) scale(1.3); }
+      100% { transform: translate(-50%, -50%) scale(1); }
+    }
+    /*"pok" ozadja*/
+    body.bg-pop {
+      animation: bg-pop 0.3s ease;
+    }
+
+    @keyframes bg-pop {
+      0%   { background-size: 30%; }
+      50%  { background-size: 45%; } 
+      100% { background-size: 30%; }
+    }
+  </style>
+</head>
+
+
+<body>
+  <div id="game-area">
+    <button id="click-btn">Začni</button>
+    <div id="message">🍉🍉🍉 Test hitrosti 🍉🍉🍉</div>
+    <div id="scoreboard">
+      <h3>Zadnji rezultati:</h3>
+      <div class="score-header" id = "header">
+        <p>Povprečni čas | skupni čas</p>
+      </div>
+      <div id="scores">
+        {% for s in scores %}
+        <div>{{ "%.3f"|format(s.avg) }}s, {{ "%.3f"|format(s.total) }}s</div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  <script src="{{ url_for('static', path='script.js') }}"></script>
+</body>
+</html>
